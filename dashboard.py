@@ -4,7 +4,7 @@ import os
 import csv
 from datetime import datetime
 
-# Hamare existing engine se qualification logic import
+# Import qualification and discovery engine functions
 from app import analyze_prospect, fetch_live_website, generate_infinite_target_candidates, get_already_processed_domains
 
 st.set_page_config(
@@ -14,6 +14,7 @@ st.set_page_config(
 )
 
 CSV_FILE = "bright_tech_qualified_leads.csv"
+EXCEL_FILE = "Bright_Tech_Clean_Leads.xlsx"
 
 # Custom Styling
 st.markdown("""
@@ -55,6 +56,7 @@ if st.sidebar.button("🚀 Discover Fresh Leads", type="primary"):
                     writer.writeheader()
                 writer.writerows(new_records)
             st.sidebar.success(f"Added {len(new_records)} fresh leads!")
+            st.rerun()
         else:
             st.sidebar.warning("No new targets found.")
 
@@ -105,17 +107,21 @@ if not df.empty:
         "review_status", "official_contact_route"
     ]
     
-    # Highlight high scores
+    # Safe score styling (Handles both modern and older pandas versions)
     def highlight_score(val):
-        color = '#dcfce7' if val >= 80 else ('#fef9c3' if val >= 60 else '#fee2e2')
-        return f'background-color: {color}'
+        try:
+            val_int = int(val)
+            color = '#dcfce7' if val_int >= 80 else ('#fef9c3' if val_int >= 60 else '#fee2e2')
+            return f'background-color: {color}'
+        except Exception:
+            return ''
 
-    # Backward & forward compatible styling (.map for pandas 2.1+, fallback to .applymap)
-styler = filtered_df[display_cols].style
-if hasattr(styler, "map"):
-    styled_table = styler.map(highlight_score, subset=['total_score'])
-else:
-    styled_table = styler.applymap(highlight_score, subset=['total_score'])
+    styler = filtered_df[display_cols].style
+    if hasattr(styler, "map"):
+        styled_table = styler.map(highlight_score, subset=['total_score'])
+    else:
+        styled_table = styler.applymap(highlight_score, subset=['total_score'])
+
     st.dataframe(styled_table, use_container_width=True, height=350)
 
     # ----------------- LEAD DETAIL & ACTIONS -----------------
@@ -155,13 +161,13 @@ else:
         )
         
     with col_dl2:
-        if os.path.exists("Bright_Tech_Clean_Leads.xlsx"):
-            with open("Bright_Tech_Clean_Leads.xlsx", "rb") as f:
+        if os.path.exists(EXCEL_FILE):
+            with open(EXCEL_FILE, "rb") as f:
                 excel_bytes = f.read()
             st.download_button(
                 label="📊 Download Formatted Executive Report (Excel)",
                 data=excel_bytes,
-                file_name="Bright_Tech_Clean_Leads.xlsx",
+                file_name=EXCEL_FILE,
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 else:
