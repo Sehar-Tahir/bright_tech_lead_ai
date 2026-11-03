@@ -110,7 +110,12 @@ if not df.empty:
         color = '#dcfce7' if val >= 80 else ('#fef9c3' if val >= 60 else '#fee2e2')
         return f'background-color: {color}'
 
-    styled_table = filtered_df[display_cols].style.applymap(highlight_score, subset=['total_score'])
+    # Backward & forward compatible styling (.map for pandas 2.1+, fallback to .applymap)
+styler = filtered_df[display_cols].style
+if hasattr(styler, "map"):
+    styled_table = styler.map(highlight_score, subset=['total_score'])
+else:
+    styled_table = styler.applymap(highlight_score, subset=['total_score'])
     st.dataframe(styled_table, use_container_width=True, height=350)
 
     # ----------------- LEAD DETAIL & ACTIONS -----------------
