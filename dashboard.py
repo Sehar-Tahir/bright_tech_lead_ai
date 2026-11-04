@@ -41,7 +41,7 @@ EXCEL_FILE = "Bright_Tech_Clean_Leads.xlsx"
 # =====================================================================
 #  1. THEME  (yahin se colors change karo)
 # =====================================================================
-ACTIVE_THEME = "violet"   # default theme (neeche PALETTES mein jo naam hai wahi likho)
+ACTIVE_THEME = "rose"   # default theme (neeche PALETTES mein jo naam hai wahi likho)
 THEME_SWITCHER = True     # True = sidebar ke bottom mein live theme dropdown dikhega
 
 PALETTES = {
