@@ -9,7 +9,7 @@ from app import analyze_prospect, fetch_live_website, generate_infinite_target_c
 
 st.set_page_config(
     page_title="Bright Tech - Lead Intelligence Engine",
-    page_icon="⚡",
+    page_icon="⚜️",
     layout="wide"
 )
 
@@ -25,7 +25,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-header">⚡ Bright Tech International - Lead Intelligence Dashboard</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">⚜️ Bright Tech International - Lead Intelligence Dashboard</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">B2B Prospect Discovery & Explainable Scoring Pipeline (UK & US Markets)</div>', unsafe_allow_html=True)
 
 # ----------------- SIDEBAR CONTROLS -----------------
