@@ -122,7 +122,7 @@ if not df.empty:
     else:
         styled_table = styler.applymap(highlight_score, subset=['total_score'])
 
-    st.dataframe(styled_table, use_container_width=True, height=350)
+    st.dataframe(styled_table, width='stretch, height=350)
 
     # ----------------- LEAD DETAIL & ACTIONS -----------------
     st.write("---")
